@@ -141,6 +141,13 @@ def get_stack(fnames, prior_lines, lines, dir_save, dir_data ='./../../data/Data
 
         shuffled_specs["spec_K"+prior_lines[0]]  = spec_prior
 
+        # save some more galaxy parameters
+        if is_IDL:
+            stack["beam_as"] = this_data["beam_as"][0]
+            
+        else:
+            stack["beam_as"] = this_data["beam_as"]
+            
 
         if do_smooth == False:
             if is_IDL:
@@ -156,13 +163,10 @@ def get_stack(fnames, prior_lines, lines, dir_save, dir_data ='./../../data/Data
             
             
             #save ncounts of prior line
-            stack["counts_"+prior_lines[0]] =stack_spec["counts"]
             stack["ncounts_"+prior_lines[0]] =np.nanmax(stack_spec["counts"], axis=0)
             # number of spectra, where the prior has been detected and the spectrum was shuffled
             stack["ncounts_total_"+prior_lines[0]] = stack_spec["counts_total_spec"]
-            stack["nbins"] = stack_spec["counts_total"]
-            stack["narea_kpc2"] = 37.575*(1/3600*stack["dist_mpc"]*np.pi/180)**2* \
-                              np.cos(np.pi/180*stack["incl_deg"])*stack["ncounts_total_"+prior_lines[0]]
+            #stack["narea_kpc2"] = 37.575*(1/3600*stack["dist_mpc"]*np.pi/180)**2* np.cos(np.pi/180*stack["incl_deg"])*stack["ncounts_total_"+prior_lines[0]]
             
             # Iterate over the different lines that need to be stacked
             for line in lines:
@@ -171,23 +175,11 @@ def get_stack(fnames, prior_lines, lines, dir_save, dir_data ='./../../data/Data
                 spec_orig = this_data["SPEC_VAL_"+line]
                 stack_spec = stck_spc.stack_spec(spec, xvec,xtype,  nbins, xmin_bin, xmax_bin, xmid_bin,weights = weights, ignore_empties=ignore_empties, trim_stackspec=trim_stackspec, spec_orig = spec_orig)
                 stack["spec_K_"+line] = stack_spec["spec"]
-                stack["counts_"+line] =stack_spec["counts"]
                 stack["ncounts_"+line] =np.nanmax(stack_spec["counts"], axis=0)
                 stack["ncounts_total_"+line] = stack_spec["counts_total_spec"]
 
 
-        # save some more galaxy parameters
-        if is_IDL:
-            stack["dist_mpc"] = this_data["dist_mpc"][0]
-            stack["posang_deg"] = this_data["posang_deg"][0]
-            stack["incl_deg"] = this_data["incl_deg"][0]
-            stack["beam_as"] = this_data["beam_as"][0]
-        else:
-            stack["dist_mpc"] = this_data["dist_mpc"]
-            stack["posang_deg"] = this_data["posang_deg"]
-            stack["incl_deg"] = this_data["incl_deg"]
-            stack["beam_as"] = this_data["beam_as"]
-
+        
         stack["vaxis_kms"] = vaxis
 
         
