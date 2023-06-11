@@ -31,8 +31,8 @@ def get_stack(fnames, prior_lines, lines, dir_save, dir_data ='./../../data/Data
     :param xtype: string name of the quantity by which to stack, must be included in PyStructure.
     :param bin_scaling: "linear" or "log"
     :param nbins: number of bins (integer)
-    :param xmin: bin minimum (set as maximum of data range if None)
-    :param xmax: bin maximum (set as minimum of data range if None)
+    :param xmin: bin minimum (set as minimum of data range if None)
+    :param xmax: bin maximum (set as maximum of data range if None)
     :param sn_limits: S/N thresholds for lower and upper mask
     :param no_detec_wdw: window size over which to integrate in case no detection is found. In km/s
     :param pad_v: in km/s range at either edges to exclude from integrating or finding the mask

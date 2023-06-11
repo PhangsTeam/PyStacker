@@ -25,7 +25,34 @@ There exist two modes how the PyStacker code can be utilized:
 
 ## Documentation:
 
-Keys:
+#### Optional Parameters:
+The configure file accepts a list of optional parmeters which make it possible to customize the stacking method.
+
+> 'nbins': number of bins (integer). DEFAULT: 10
+>
+> 'xmin': bin minimum DEFAULT: set as minimum of data range
+>
+> 'xmax': bin minimum DEFAULT: set as maximum of data range
+>
+> 'bin_scaling': "linear" or "log" DEFAULT: "linear"
+>
+> 'sn_limits': S/N thresholds for lower and upper mask DEFAULT: [2,4]
+>
+> 'no_detec_wdw': window size over which to integrate for limit in case no detection is found. In km/s DEFAULT: 30
+>
+> 'pad_v':  in km/s range at either edges to exclude from integrating or finding the mask. DEAFULT: 100
+>
+> 'line_wdw': window size where emission is expected to exlude from finding the mask. In km/s DEAFULT:0
+>
+> 'ignore_empties': True or False, weither sightlines without datat hould be ignored. DEAFULT: False
+>
+> 'weights_type': string name of the quantity by which to weight the stacking. DEFAULT: None
+>
+> 'rms_type': How to measure the line rms can be 'iterative' or None (DEFAULT)
+>
+> 'trim_stackspec': Boolean, if true (DEFAULT), trim the stacked spectrum to only include channels, where the overlap of all spectra is given
+
+#### Keys:
 
 > 'beam_as': beam size (FWHM) in arcseconds (float)
 > 
