@@ -38,6 +38,9 @@ def stack_spec(spec_ra,
     
     #count the number of pixels per bin that contain an actual observation
     counts_tot_spec = np.zeros(nbins)
+    
+    # number of prior detected pixels per bin
+    counts_prior = np.zeros(nbins)
 
     #--------------------------------------------------------------------------
     # Loop over bins
@@ -78,7 +81,11 @@ def stack_spec(spec_ra,
                     else:
                         # divide by total number of counts
                         stacked_spec[:,i] = np.nansum(spec_list, axis = 0)/counts_tot_spec[i]
-                
+                        # correct for intensities in channels, where fewer than prior-detected channels overlap
+                        counts_prior[i] = np.nanmax(counts[:,i])  # compute number of prior-detected pixels at maximum overlap
+                        rms_correction = counts_prior[i] / counts[:,i] # correction factor to get unbiased rms from stacked spectrum
+                        stacked_spec[:,i] *= rms_correction
+
                 if trim_stackspec:
                     # trim the edges of the spectrum to only include channels where the overlap
                     # of all spectrea is ensured
